@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Headers Viewer</title>
+    <script>
+        async function fetchHeaders() {
+            try {
+                let response = await fetch(window.location.href, {
+                    method: "GET",
+                    headers: new Headers({
+                        "Custom-Header": "TestHeaderValue"
+                    })
+                });
+                let headers = {};
+                response.headers.forEach((value, key) => {
+                    headers[key] = value;
+                });
+                
+                document.getElementById("headers").textContent = JSON.stringify(headers, null, 2);
+            } catch (error) {
+                console.error("Error fetching headers:", error);
+                document.getElementById("headers").textContent = "Failed to fetch headers.";
+            }
+        }
+
+        window.onload = fetchHeaders;
+    </script>
+</head>
+<body>
+    <h1>Received Headers</h1>
+    <pre id="headers">Loading...</pre>
+</body>
+</html>
